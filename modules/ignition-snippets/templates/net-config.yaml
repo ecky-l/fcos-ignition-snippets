@@ -1,0 +1,27 @@
+---
+variant: fcos
+version: 1.1.0
+storage:
+  files:
+    %{~ for nic, conf in net_config ~}
+    - path: /etc/NetworkManager/system-connections/${nic}.nmconnection
+      mode: 0600
+      overwrite: true
+      contents:
+        inline: |
+          [connection]
+          %{~ for key, value in merge({
+                                        "id"="${nic}",
+                                        "interface-name"="${nic}",
+                                        "type"="ethernet"
+                                      }, lookup(conf, "connection", {})) ~}
+          ${key}=${value}
+          %{~ endfor ~}
+          %{~ for cfgKey in setsubtract(keys(conf), ["connection"]) ~}
+          [${cfgKey}]
+          %{~ for key, value in conf[cfgKey] ~}
+          ${key}=${value}
+          %{~ endfor ~}
+          %{~ endfor ~}
+    %{~ endfor ~}
+
