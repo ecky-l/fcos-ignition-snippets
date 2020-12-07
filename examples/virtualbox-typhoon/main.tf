@@ -57,6 +57,7 @@ module "vluster" {
   k8s_domain_name = "k1.local.vlan"
   os_version = "32.20201104.3.0"
   cached_install = true
+  network_ip_autodetection_method = "interface=enp0s3"
   controllers = [
     {
       name   = "k1"
