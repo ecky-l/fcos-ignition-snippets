@@ -1,3 +1,7 @@
+variable "user_authorized_keys" {
+  type        = map(list(string))
+  description = "SSH public keys for user 'core'"
+}
 
 variable "networks" {
   type = map(map(map(map(string))))

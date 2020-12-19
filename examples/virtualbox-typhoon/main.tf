@@ -22,6 +22,14 @@ locals {
 
 module "virtualbox-snippets" {
   source = "../../modules/ignition-snippets"
+  user_authorized_keys = {
+    k1 = [
+      file("~/.ssh/id_rsa.pub")
+    ]
+    k2 = [
+      file("~/.ssh/id_rsa.pub")
+    ]
+  }
   networks = {
     k1 = {
       enp0s3 = {
