@@ -17,7 +17,7 @@ provider "ct" {}
 
 provider "matchbox" {
   endpoint    = "befruchter.home.el:8081"
-  client_cert = file("~/.matchbox/tls/client.crt")
-  client_key  = file("~/.matchbox/tls/client.key")
-  ca          = file("~/.matchbox/tls/ca.crt")
+  client_cert = file("~/.matchbox/befruchter.home.el/client.crt")
+  client_key  = file("~/.matchbox/befruchter.home.el/client.key")
+  ca          = file("~/.matchbox/befruchter.home.el/ca.crt")
 }

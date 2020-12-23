@@ -50,9 +50,9 @@ module "virtualbox-snippets" {
       enp0s9 = local.enp0s9_ipv4
     }
   }
-  root_partition_size_gib = {
-    k1 = 24,
-    k2 = 24
+  root_partition = {
+    k1 = {}
+    k2 = {}
   }
 }
 

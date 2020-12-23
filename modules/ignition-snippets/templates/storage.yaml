@@ -10,7 +10,7 @@ storage:
           kernel.printk = 2 4 1 7
   %{~ if root_partition_size_gib > 0 ~}
   disks:
-    - device: /dev/sda
+    - device: /dev/${root_partition_name}
       partitions:
         - number: 0
           label: data

@@ -28,8 +28,8 @@ https://docs.fedoraproject.org/en-US/fedora-coreos/sysconfig-network-configurati
 EOD
 }
 
-variable "root_partition_size_gib" {
-  type = map(number)
+variable "root_partition" {
+  type = map(map(string))
   description = <<EOD
 Map of sizes of the root partition in provisioned CoreOS images. Keys are for lookup in later (typhoon) snippets
 configuration, each key conforms to a host. If set to a value > 0, the install disk will be partitioned and the root
