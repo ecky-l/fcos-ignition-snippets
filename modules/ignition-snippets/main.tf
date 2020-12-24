@@ -18,7 +18,7 @@ data "ct_config" "network_snippets" {
 data "ct_config" "storage_snippets" {
   for_each = var.root_partition
   content = templatefile("${path.module}/templates/storage.yaml", {
-    root_partition_size_gib = lookup(each.value, "size", 12)
+    root_partition_size_gib = lookup(each.value, "size", 10)
     root_partition_name = lookup(each.value, "name", "sda")
   })
 }

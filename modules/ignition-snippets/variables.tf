@@ -31,14 +31,18 @@ EOD
 variable "root_partition" {
   type = map(map(string))
   description = <<EOD
-Map of sizes of the root partition in provisioned CoreOS images. Keys are for lookup in later (typhoon) snippets
-configuration, each key conforms to a host. If set to a value > 0, the install disk will be partitioned and the root
-partition will be the given size. The remaining space will form a second partition which is mounted at /var/mnt/data.
+Map of root partition settings: size and name. Sizes of the root partition in provisioned CoreOS images. Keys are for
+lookup in later (typhoon) snippets configuration, each key conforms to a host. If size is set to a value > 0, the
+install disk will be partitioned and the root partition will be the given size. The remaining space will form a second
+partition which is mounted at /var/mnt/data.
 
-Example for a 24 GB root partition in the host named node1:
+Example for a 10 GB root partition in the host named node1:
 
-root_partition_size_gib = {
-  node1 = 24
+root_partition_size = {
+  node1 = {
+    size = 10
+
+  }
 }
 
 This is useful if you want to have persistent data on the remaining space while still be able to recreate the hosts root
