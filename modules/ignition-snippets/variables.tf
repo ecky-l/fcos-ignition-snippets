@@ -52,3 +52,9 @@ to your setup.
 
 EOD
 }
+
+variable "qemu_guest_agent_hosts" {
+  type = list(string)
+  description = "List of hosts (labels) where to install the qemu-guest-agent"
+  default = []
+}

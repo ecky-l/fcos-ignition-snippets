@@ -23,6 +23,11 @@ data "ct_config" "storage_snippets" {
   })
 }
 
+data "ct_config" "qemu_guest_agent_snippets" {
+  for_each = var.qemu_guest_agent_hosts
+  content = file("${path.module}/templates/qemu-guest-agent.yaml")
+}
+
 output "user_snippets" {
   value = data.ct_config.user_snippets
 }
@@ -33,4 +38,8 @@ output "network_snippets" {
 
 output "storage_snippets" {
   value = data.ct_config.storage_snippets
+}
+
+output "qemu_guest_agent_snippets" {
+  value = data.ct_config.qemu_guest_agent_snippets
 }

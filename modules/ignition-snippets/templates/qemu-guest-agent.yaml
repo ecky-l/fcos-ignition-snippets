@@ -1,0 +1,46 @@
+---
+variant: fcos
+version: 1.1.0
+storage:
+  directories:
+    - path: /var/log/provision-done
+      mode: 0755
+  files:
+    - path: /usr/local/bin/install-qemu-ga.sh
+      mode: 0755
+      overwrite: true
+      contents:
+        inline: |
+          #!/bin/bash -e
+          echo "creating qemu-guest-agent container and systemd unit to start it"
+          podman create \
+                  --pull always \
+                  --name qemu-ga \
+                  --network host \
+                  --privileged \
+                  -v /dev/virtio-ports/org.qemu.guest_agent.0:/dev/virtio-ports/org.qemu.guest_agent.0:Z \
+                  eleh/qemu-guest-agent
+          cd /etc/systemd/system/ && podman generate systemd -fn qemu-ga ; cd -
+          systemctl daemon-reload
+          systemctl enable container-qemu-ga
+          systemctl start container-qemu-ga
+          touch /var/log/provision-done/install-qemu-ga
+systemd:
+  units:
+    - name: install-qemu-ga.service
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install the qemu-guest-agent service from container
+        After=network-online.target
+        Wants=network-online.target
+        Before=systemd-user-sessions.service
+        ConditionPathExists=!/var/log/provision-done/install-qemu-ga
+        [Service]
+        Type=oneshot
+        RemainAfterExit=true
+        ExecStart=/usr/local/bin/install-qemu-ga.sh
+        StandardOutput=kmsg+console
+        StandardError=kmsg+console
+        [Install]
+        WantedBy=multi-user.target
