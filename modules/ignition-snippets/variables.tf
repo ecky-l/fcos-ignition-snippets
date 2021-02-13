@@ -38,10 +38,9 @@ partition which is mounted at /var/mnt/data.
 
 Example for a 10 GB root partition in the host named node1:
 
-root_partition_size = {
+root_partition = {
   node1 = {
     size = 10
-
   }
 }
 
