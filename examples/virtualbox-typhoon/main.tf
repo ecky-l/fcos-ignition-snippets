@@ -58,25 +58,26 @@ module "virtualbox-snippets" {
 
 
 module "vluster" {
-  source = "git::https://github.com/poseidon/typhoon.git//bare-metal/fedora-coreos/kubernetes"
+  #source = "git::https://github.com/poseidon/typhoon.git//bare-metal/fedora-coreos/kubernetes"
+  source = "git::https://github.com/ecky-l/typhoon.git//bare-metal/fedora-coreos/kubernetes"
   cluster_name = "vluster"
   matchbox_http_endpoint = "http://10.10.0.1:8080"
   ssh_authorized_key = file("~/.ssh/id_rsa.pub")
   k8s_domain_name = "k1.local.vlan"
-  os_version = "32.20201104.3.0"
+  os_version = "33.20210314.3.0"
   cached_install = true
   network_ip_autodetection_method = "interface=enp0s3"
   controllers = [
     {
       name   = "k1"
-      mac    = "08:00:27:B7:80:3F"
+      mac    = "08:00:27:E4:9C:82"
       domain = "k1.local.vlan"
     }
   ]
   workers = [
     {
       name   = "k2",
-      mac    = "08:00:27:37:B8:F5"
+      mac    = "08:00:27:66:1F:9E"
       domain = "k2.local.vlan"
     }
   ]
@@ -95,4 +96,14 @@ module "vluster" {
 resource "local_file" "vluster-kubeconfig" {
   content  = module.vluster.kubeconfig-admin
   filename = "${path.cwd}/outputs/kubeconfig"
+}
+
+resource local_file "assets" {
+  for_each = module.vluster.assets_dist
+  filename = "${path.cwd}/outputs/assets/${each.key}"
+  content = each.value
+}
+
+resource "local_file" "assets-bundle" {
+  filename = ""
 }
